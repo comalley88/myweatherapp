@@ -7,35 +7,33 @@ router.get('/', function(req, res, next) {
   res.render('login');
 });
 
-var cityList = [
-  {name: 'Paris',
-  currentWeather: {
-    description: 'nuageaux',
-    url: '/images/picto-1.png',
-    maxTemp: 6,
-    MinTemp: 14
-  }
-},
-{name: 'London',
-  currentWeather: {
-    description: 'ciel degage',
-    url: '/images/picto-1.png',
-    maxTemp: 4,
-    MinTemp: 18
-  }
-},
-{name: 'Madrid',
-  currentWeather: {
-    description: 'soleil',
-    url: '/images/picto-1.png',
-    maxTemp: 2,
-    MinTemp: 20
-  }
-}
-]
+var cityList = []
 
 router.get('/weather', function(req,res) {
-  cityList = req.query
+  console.log(cityList)
+  res.render('weather', {cityList})
+})
+
+router.post('/add-city', function(req,res) {
+  
+  var duplicate = false 
+  
+  for (var i=0; i<cityList.length; i++) {
+    if (cityList[i].name === req.body.name) {
+      duplicate = true
+    }}
+  if (duplicate === false) {cityList.push(req.body)}
+  
+
+  res.render('weather', {cityList})
+})
+
+router.get('/delete-item', function(req,res) {
+  for (var i=0; i<cityList.length; i++) {
+    if (cityList[i].name === req.query.name) {
+      cityList.splice(i, 1)
+    }
+  }
   res.render('weather', {cityList})
 })
 
