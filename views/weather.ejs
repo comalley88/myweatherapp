@@ -20,52 +20,54 @@
 
 
    <!-- GRID -->
-   <div class="container-fluid">
-       <div class="row justify-content-center">
-           <div class="col-m-10 col-lg-5">
+   <div class="container">
+       <div class="row">
+    <!--CHAMP SAISIE POUR AJOUTER UNE VILLE-->
+           <div class="col-12 offset-lg-6 col-lg-6">  <!--met en place grid-->
+            <% cities.forEach((city) => {%>
+                <% if (city.error === '404') {%>
+                    <p>This is an error</p>
+                }
+            <%}}) %> 
             <form action="/add-city" method="post">
                 <div class="input-group mb-3">
                         <input type="text" name='name' value='' class="form-control" placeholder="enter city name" aria-label="city-name" aria-describedby="button-addon2">
-                        <input type="hidden" name="url" value="/images/picto-1.png">
-                        <input type="hidden" name="description" value="nuageaux">
-                        <input type="hidden" name="minTemp" value="12">
-                        <input type="hidden" name="maxTemp" value="22">
                         <button type="submit" class="btn btn btn-warning" id="button-addon2">Add</button>
                 </div>
             </form>
+                 
            </div>
        </div>
-       <div class="row justify-content-center">       
-            <div class="col-m-10 col-lg-5">
+    <!--RESULTATS DE RECHERCHE-->
+       <div class="row">       
+            <div class="col-12 col-lg-6">     <!--met en place grid-->
                 <img src="/images/map.png" class="img-fluid" alt="map">
             </div>
-            <div class="col-m-10 col-lg-5 text-center">
-                <div class="my-2">
-                    <span>Update Cities</span><a href="#"><i class="fas fa-sync"></i></a> 
+            <div class="col-12 col-lg-6 text-center">
+                <div class="my-2">              <!--utilise la notation bootstrap pour modifier l'apparence du page-->
+                    <span>Update Cities</span><a href="/update-data"><i class="fas fa-sync"></i></a> 
                 </div>
-                <% if (cityList.length<1) {%>
-                    <h6> No cities found </h6>
-                <%}else {%>
-                    <ul class="list-group">
-                <% for (var i=0; i<cityList.length; i++) {%>
+                <% if (cities.length<1) {%>  
+                     No cities found 
+                <%}%>
+                    <ul class="list-group">     
+                <% for (var i=0; i<cities.length; i++) {%> <!--limite duplication du code en mettant une boucle pour data dans des tableau au backend-->
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="cityName">
-                        <%= cityList[i].name %>
+                        <%= cities[i].name %>
                     </div>
                     <div class="cityIcons">
-                        <span><%= cityList[i].description %></span>
-                        <img src=<%= cityList[i].url%> alt="clouds">
-                        <span class="badge rounded-pill bg-warning text-dark"><%= cityList[i].minTemp %></span>
-                        <span class="badge rounded-pill bg-secondary text-light"><%= cityList[i].maxTemp %></span>
+                        <span><%= cities[i].description %></span>   
+                        <img style="width: 30px;" src="http://openweathermap.org/img/wn/<%= cities[i].url%>@2x.png" alt="clouds">
+                        <span class="badge rounded-pill bg-warning text-dark"><%= cities[i].maxTemp %></span>
+                        <span class="badge rounded-pill bg-secondary text-light"><%= cities[i].minTemp %></span>
                     </div>
                     <div class="supp-img">
-                       <a href="/delete-item?name=<%= cityList[i].name %>"><button type="button" class="btn btn-link"><i class="far fa-times-circle"></i></button></a> 
+                       <a href="/delete-item?name=<%= cities[i].name %>"><button type="button" class="btn btn-link"><i class="far fa-times-circle"></i></button></a> 
                     </div>
                     </li>
                 <% } %> 
                   </ul>
-                
-                <% } %> 
                 
             </div>
    
